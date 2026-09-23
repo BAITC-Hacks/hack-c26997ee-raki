@@ -5,7 +5,8 @@ export { MeasureScope } from './measure-scope'
 export type { Measure } from './measure'
 export type { Decision, ScenarioRequest } from './scenario'
 export type {
-  AIAnalysis,
+  AppliedSynergy,
   DistrictSimulationResult,
   SimulationResult,
+  SimulationSuccess,
 } from './simulation-result'

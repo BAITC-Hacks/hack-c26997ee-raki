@@ -5,6 +5,9 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from services.models import Decision
+from services.simulation_engine import simulate
+
 from .auth import CurrentUser
 from .config import get_settings
 from .supabase import get_supabase
@@ -14,6 +17,15 @@ class ScenarioCreate(BaseModel):
     name: str = Field(min_length=1, max_length=120)
     selections: list[dict[str, Any]] = Field(default_factory=list)
     score: float | None = Field(default=None, ge=0, le=100)
+
+
+class DecisionRequest(BaseModel):
+    measure_id: str
+    district_id: str | None
+
+
+class SimulationRequest(BaseModel):
+    decisions: list[DecisionRequest]
 
 
 @asynccontextmanager
@@ -37,6 +49,15 @@ app.add_middleware(
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok", "service": "akim-api"}
+
+
+@app.post("/api/simulate")
+def run_simulation(payload: SimulationRequest) -> dict[str, Any]:
+    decisions = [
+        Decision(measure_id=item.measure_id, district_id=item.district_id)
+        for item in payload.decisions
+    ]
+    return simulate(decisions)
 
 
 @app.get("/api/me")

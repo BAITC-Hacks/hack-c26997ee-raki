@@ -9,6 +9,9 @@ import ValidationErrors from './ValidationErrors'
 interface ScenarioPanelProps {
   decisions: readonly Decision[]
   errors: readonly string[]
+  engineErrors: readonly string[]
+  requestError: string | null
+  isLoading: boolean
   onDistrictChange: (measureId: string, districtId: string | null) => void
   onRemove: (measureId: string) => void
   onRun: () => void
@@ -17,6 +20,9 @@ interface ScenarioPanelProps {
 function ScenarioPanel({
   decisions,
   errors,
+  engineErrors,
+  requestError,
+  isLoading,
   onDistrictChange,
   onRemove,
   onRun,
@@ -82,18 +88,19 @@ function ScenarioPanel({
           )}
         </div>
 
-        <ValidationErrors errors={errors} />
+        <ValidationErrors errors={[...errors, ...engineErrors]} />
+        {requestError && <p className="scenario-request-error" role="alert">{requestError}</p>}
       </div>
 
       <div className="scenario-panel__footer">
         <button
           type="button"
           className="scenario-panel__run"
-          disabled={errors.length > 0}
+          disabled={errors.length > 0 || isLoading}
           onClick={onRun}
         >
-          Запустить симуляцию
-          <span aria-hidden="true">→</span>
+          {isLoading ? 'Симуляция...' : 'Запустить симуляцию'}
+          {!isLoading && <span aria-hidden="true">→</span>}
         </button>
       </div>
     </aside>
