@@ -1,21 +1,13 @@
-from services.models import Decision
-from services.validator import validate
 
+import asyncio
+from app.ai.openai_client import get_openai_client, get_openai_model
 
-decisions = [
-    Decision("M10", "nura"),
-    Decision("M2", "nura"),
-    Decision("M3", "nura"),
-    Decision("M4"),
-    Decision("M8", "saryarka"),
-]
+async def main():
+    client = get_openai_client()
+    response = await client.responses.create(
+        model=get_openai_model(),
+        input="Ответь одним словом: работает"
+    )
+    print(response.output_text)
 
-try:
-    result = validate(decisions)
-
-    print("VALID")
-    print(result)
-
-except ValueError as error:
-    print("INVALID")
-    print(error)
+asyncio.run(main())
