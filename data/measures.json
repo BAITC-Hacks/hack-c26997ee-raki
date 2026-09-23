@@ -1,0 +1,31 @@
+{
+  "simulationHorizonQuarters": 8,
+  "budget": 100,
+  "requiredMeasureCount": 5,
+  "measures": [
+    { "id": "M1", "direction": "transport", "name": "Выделенные полосы для автобусов", "scope": "district", "cost": 18, "lagQuarters": 2, "effects": { "T1": 6, "T2": 9 } },
+    { "id": "M2", "direction": "transport", "name": "Умные светофоры (адаптивное управление)", "scope": "city", "cost": 22, "lagQuarters": 2, "effects": { "T1": 4, "B2": 3 } },
+    { "id": "M3", "direction": "transport", "name": "Линия ЛРТ / расширение", "scope": "district", "cost": 30, "lagQuarters": 4, "effects": { "T1": 16, "T2": 20, "E2": 4 } },
+    { "id": "M4", "direction": "ecology", "name": "Парк / сквер", "scope": "district", "cost": 15, "lagQuarters": 2, "effects": { "E1": 12, "E2": 3, "B1": 2 } },
+    { "id": "M5", "direction": "ecology", "name": "Перевод частного сектора на чистое топливо", "scope": "district", "cost": 25, "lagQuarters": 3, "effects": { "E2": 14, "C1": 4 } },
+    { "id": "M6", "direction": "ecology", "name": "Городская программа озеленения и ветрозащитных полос", "scope": "city", "cost": 20, "lagQuarters": 4, "effects": { "E1": 5, "E2": 3 } },
+    { "id": "M7", "direction": "social", "name": "Школа + детсад (модульное строительство)", "scope": "district", "cost": 24, "lagQuarters": 3, "effects": { "S1": 16 } },
+    { "id": "M8", "direction": "social", "name": "Центр семейного здоровья / поликлиника", "scope": "district", "cost": 20, "lagQuarters": 3, "effects": { "S2": 14 } },
+    { "id": "M9", "direction": "social", "name": "Дворовые спорт-хабы", "scope": "district", "cost": 10, "lagQuarters": 1, "effects": { "S1": 3, "S2": 3, "B1": 3 } },
+    { "id": "M10", "direction": "safety", "name": "Освещение и камеры (расширение Safe City)", "scope": "district", "cost": 12, "lagQuarters": 1, "effects": { "B1": 12, "B2": 2 } },
+    { "id": "M11", "direction": "safety", "name": "Безопасные переходы и школьные зоны", "scope": "district", "cost": 10, "lagQuarters": 1, "effects": { "B2": 12, "T1": -2 } },
+    { "id": "M12", "direction": "services", "name": "Единая цифровая платформа обращений", "scope": "city", "cost": 14, "lagQuarters": 1, "effects": { "C2": 5 } },
+    { "id": "M13", "direction": "services", "name": "Модернизация тепло- и водосетей", "scope": "district", "cost": 28, "lagQuarters": 4, "effects": { "C1": 18, "E2": 2 } },
+    { "id": "M14", "direction": "services", "name": "Аварийные бригады ЖКХ + раннее оповещение", "scope": "city", "cost": 16, "lagQuarters": 1, "effects": { "C1": 5, "C2": 2 } }
+  ],
+  "synergies": [
+    { "measures": ["M1", "M2"], "bonus": { "T1": 2 }, "appliesTo": "districtOfFirstMeasure" },
+    { "measures": ["M10", "M12"], "bonus": { "B1": 2 }, "appliesTo": "districtOfFirstMeasure" },
+    { "measures": ["M5", "M6"], "bonus": { "E2": 2 }, "appliesTo": "districtOfFirstMeasure" }
+  ],
+  "incompatibilities": [
+    { "measures": ["M1", "M3"], "reason": "Можно выбрать только BRT или ЛРТ, в любом районе." },
+    { "measures": ["M4", "M7"], "reason": "Нельзя выбрать в одном районе: конфликт за участок." },
+    { "measures": ["M5", "M13"], "reason": "Нельзя выбрать в одном районе: дублирование программы." }
+  ]
+}

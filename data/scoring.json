@@ -1,0 +1,36 @@
+{
+  "indicatorWeights": { "T1": 0.10, "T2": 0.10, "E1": 0.09, "E2": 0.11, "S1": 0.11, "S2": 0.11, "B1": 0.09, "B2": 0.09, "C1": 0.10, "C2": 0.10 },
+  "directionWeights": { "transport": 0.20, "ecology": 0.20, "social": 0.22, "safety": 0.18, "services": 0.20 },
+  "criticalThreshold": 40,
+  "criticalPenaltyPerPair": 1,
+  "scoreFormula": { "cityAverageWeight": 0.7, "weakestDistrictWeight": 0.3, "criticalPenaltyWeight": 1.0 },
+  "calculation": {
+    "lagAdjustedEffect": "(horizonQuarters - lagQuarters) / horizonQuarters",
+    "indicatorAfterMeasures": "clip(baseValue + sum(lagAdjustedEffect * measureEffect) + synergyBonus, 0, 100)",
+    "districtScore": "sum(indicatorWeight * indicatorAfterMeasures)",
+    "cityAverage": "sum(populationShare * districtScore)",
+    "finalScore": "0.7 * cityAverage + 0.3 * min(districtScore) - criticalCount"
+  },
+  "validationRules": [
+    "Ровно 5 решений.",
+    "Каждое мероприятие можно выбрать только один раз.",
+    "Для мероприятия scope=\"district\" район обязателен; для scope=\"city\" район не указывается.",
+    "Не более 2 мероприятий из одного направления.",
+    "Общая стоимость не должна превышать бюджет 100.",
+    "Нельзя нарушать несовместимости из measures.json.",
+    "Невалидный набор не получает Score; валидатор возвращает причину."
+  ],
+  "baseline": { "score": 52.56, "cityAverage": 56.86, "weakestDistrict": 49.18, "criticalCount": 2, "criticalPairs": ["nura:S1", "nura:S2"] },
+  "exampleScenario": {
+    "selections": [
+      { "measureId": "M7", "districtId": "nura" },
+      { "measureId": "M8", "districtId": "nura" },
+      { "measureId": "M10", "districtId": "nura" },
+      { "measureId": "M12" },
+      { "measureId": "M5", "districtId": "saryarka" }
+    ],
+    "cost": 95,
+    "expectedScoreApprox": 56.5,
+    "expectedImprovementApprox": 4.0
+  }
+}
