@@ -720,6 +720,17 @@
   font-weight: 720;
 }
 
+.scenario-request-error {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border: 1px solid #f1d9d1;
+  border-radius: 10px;
+  color: #954b44;
+  background: #fff7f4;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .scenario-panel__run {
   display: flex;
   width: 100%;

@@ -1,0 +1,40 @@
+.results-page { min-height: 100vh; padding-bottom: 80px; background: #f5f7fb; color: #18253d; }
+.results-shell { width: min(100% - 56px, 1360px); margin-inline: auto; }
+.results-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 82px; border-bottom: 1px solid #e3e9f1; }
+.results-back { padding: 10px 14px; border: 1px solid #d7e1ef; border-radius: 10px; background: #fff; color: #3159d9; font-weight: 750; }
+.results-back:hover { border-color: #3159d9; }
+.results-hero { margin-top: 32px; padding: clamp(28px, 5vw, 56px); border: 1px solid #dae4f3; border-radius: 24px; background: linear-gradient(115deg, #fff 0%, #edf3ff 100%); }
+.results-hero h1 { margin: 12px 0 28px; font-size: clamp(27px, 3vw, 43px); letter-spacing: -.04em; }
+.results-score { display: flex; align-items: baseline; flex-wrap: wrap; gap: clamp(12px, 2.5vw, 34px); font-size: clamp(42px, 7vw, 88px); font-weight: 760; line-height: 1.1; letter-spacing: -.055em; }
+.results-score > span:first-child { color: #7c8ba4; }
+.results-score strong { color: #3159d9; }
+.results-score__arrow { color: #a2b2ca; font-size: .65em; }
+.results-delta { display: inline-flex; margin: 18px 0 0; padding: 9px 14px; border-radius: 999px; background: #e5f6ed; color: #168060; font-size: 22px; font-weight: 800; }
+.results-delta--negative { background: #fff0ef; color: #c4524d; }
+.results-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+.results-stats > div { display: flex; flex-direction: column; gap: 12px; min-height: 120px; padding: 22px; border: 1px solid #e0e7f0; border-radius: 18px; background: #fff; }
+.results-stats span { color: #64748d; font-size: 13px; font-weight: 650; }
+.results-stats strong { font-size: 28px; letter-spacing: -.035em; }
+.results-districts { margin-top: 58px; }
+.results-section-heading h2 { margin: 9px 0 24px; font-size: 32px; letter-spacing: -.04em; }
+.results-district-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.results-district { min-width: 0; padding: 22px; border: 1px solid #e0e7f0; border-radius: 18px; background: #fff; }
+.results-district h3 { margin: 0 0 18px; font-size: 21px; }
+.results-table-wrap { overflow-x: auto; }
+.results-district table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: right; }
+.results-district th, .results-district td { padding: 10px 8px; border-bottom: 1px solid #edf1f6; white-space: nowrap; }
+.results-district th:first-child { text-align: left; }
+.results-district thead th { color: #75849b; font-size: 11px; }
+.results-district tbody th { color: #2e405d; font-weight: 650; }
+.results-indicator-code { display: inline-block; width: 31px; color: #3159d9; font-weight: 800; }
+.results-change--positive { color: #168060; font-weight: 750; }
+.results-change--negative { color: #c4524d; font-weight: 750; }
+.results-extras { margin-top: 30px; padding: 24px; border: 1px solid #e0e7f0; border-radius: 18px; background: #fff; }
+.results-extras h2 { margin: 0 0 15px; font-size: 22px; }
+.results-extras ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.results-extras li { display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 13px; border-radius: 10px; background: #f6f8fc; }
+.results-extras li strong { color: #3159d9; }
+.results-warnings li { display: list-item; color: #8a5d28; background: #fff8ec; }
+@media (max-width: 1000px) { .results-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .results-district-grid { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .results-shell { width: min(100% - 32px, 540px); } .results-header { min-height: 68px; } .results-header .dashboard-brand { font-size: 13px; } .results-back { font-size: 12px; } .results-hero { margin-top: 22px; } .results-stats { gap: 10px; } .results-stats > div { min-height: 105px; padding: 16px; } .results-stats strong { font-size: 22px; } }
+@media (max-width: 430px) { .results-stats { grid-template-columns: 1fr; } .results-score { font-size: 42px; } }

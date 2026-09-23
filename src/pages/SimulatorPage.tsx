@@ -1,17 +1,35 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { ApiError } from '../api/client'
+import { runSimulation } from '../api/simulation'
 import MeasureCatalog from '../components/measures/MeasureCatalog'
 import ScenarioPanel from '../components/scenario/ScenarioPanel'
 import { MEASURES, PROJECT_RULES } from '../data'
-import { MeasureScope, type Decision, type Measure, type ScenarioRequest } from '../types'
+import { MeasureScope, type Decision, type Measure, type SimulationSuccess } from '../types'
 import { validateScenario } from '../validation/scenario'
+import ResultsPage from './ResultsPage'
 import '../styles/simulator.css'
+
+type RequestStatus = 'idle' | 'loading' | 'success' | 'error'
 
 function SimulatorPage() {
   const [decisions, setDecisions] = useState<Decision[]>([])
+  const [status, setStatus] = useState<RequestStatus>('idle')
+  const [result, setResult] = useState<SimulationSuccess | null>(null)
+  const [engineErrors, setEngineErrors] = useState<string[]>([])
+  const [requestError, setRequestError] = useState<string | null>(null)
+  const requestId = useRef(0)
   const selectedMeasureIds = new Set(decisions.map(({ measureId }) => measureId))
   const validationErrors = validateScenario(decisions)
 
+  function invalidateResult() {
+    requestId.current += 1
+    setStatus('idle')
+    setEngineErrors([])
+    setRequestError(null)
+  }
+
   function handleSelect(measure: Measure) {
+    invalidateResult()
     setDecisions((current) => {
       if (
         current.length >= PROJECT_RULES.requiredDecisions ||
@@ -23,6 +41,7 @@ function SimulatorPage() {
   }
 
   function handleDistrictChange(measureId: string, districtId: string | null) {
+    invalidateResult()
     setDecisions((current) => current.map((decision) => {
       if (decision.measureId !== measureId) return decision
       const measure = MEASURES.find((item) => item.id === measureId)
@@ -32,13 +51,41 @@ function SimulatorPage() {
   }
 
   function handleRemove(measureId: string) {
+    invalidateResult()
     setDecisions((current) => current.filter((decision) => decision.measureId !== measureId))
   }
 
-  function handleRun() {
-    if (validateScenario(decisions).length > 0) return
-    const request: ScenarioRequest = { decisions: decisions.map((decision) => ({ ...decision })) }
-    console.info('ScenarioRequest:', request)
+  async function handleRun() {
+    if (status === 'loading' || validateScenario(decisions).length > 0) return
+
+    const currentRequestId = ++requestId.current
+    setStatus('loading')
+    setEngineErrors([])
+    setRequestError(null)
+
+    try {
+      const response = await runSimulation({ decisions: decisions.map((decision) => ({ ...decision })) })
+      if (requestId.current !== currentRequestId) return
+
+      if (!response.valid) {
+        setEngineErrors(response.errors)
+        setStatus('error')
+        return
+      }
+
+      setResult(response)
+      setStatus('success')
+    } catch (error) {
+      if (requestId.current !== currentRequestId) return
+      setRequestError(error instanceof ApiError
+        ? error.message
+        : 'Не удалось обработать ответ сервера симуляции. Повторите попытку.')
+      setStatus('error')
+    }
+  }
+
+  if (status === 'success' && result) {
+    return <ResultsPage result={result} onBack={() => setStatus('idle')} />
   }
 
   return (
@@ -85,9 +132,12 @@ function SimulatorPage() {
           <ScenarioPanel
             decisions={decisions}
             errors={validationErrors}
+            engineErrors={engineErrors}
+            requestError={requestError}
+            isLoading={status === 'loading'}
             onDistrictChange={handleDistrictChange}
             onRemove={handleRemove}
-            onRun={handleRun}
+            onRun={() => void handleRun()}
           />
         </div>
       </div>

@@ -1,33 +1,33 @@
-import type { Indicators } from './indicators'
-
 export interface DistrictSimulationResult {
   districtId: string
-  districtName: string
-  beforeIndicators: Indicators
-  afterIndicators: Indicators
-  indicatorDeltas: Indicators
-  beforeScore: number
-  afterScore: number
-  scoreDelta: number
+  beforeIndicators: Record<string, number>
+  afterIndicators: Record<string, number>
 }
 
-export interface AIAnalysis {
-  summary: string
-  strengths: string[]
-  risks: string[]
-  tradeoffs: string[]
-  recommendations: string[]
+export interface AppliedSynergy {
+  measureIds: string[]
+  districtId: string | null
+  bonus: Record<string, number>
 }
 
-export interface SimulationResult {
+export interface SimulationFailure {
+  valid: false
+  errors: string[]
+}
+
+export interface SimulationSuccess {
+  valid: true
+  errors: string[]
   totalCost: number
   remainingBudget: number
   baseScore: number
   finalScore: number
   scoreDelta: number
-  criticalCount: number
-  weakestDistrictId: string
+  criticalBeforeCount: number
+  criticalAfterCount: number
   districts: DistrictSimulationResult[]
-  appliedSynergies: string[]
-  aiAnalysis: AIAnalysis
+  synergies: AppliedSynergy[]
+  warnings: string[]
 }
+
+export type SimulationResult = SimulationSuccess | SimulationFailure
