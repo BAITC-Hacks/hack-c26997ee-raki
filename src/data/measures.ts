@@ -19,12 +19,10 @@ export interface IncompatibilityMetadata {
   districtScope: 'ANY' | 'SAME'
 }
 
-function incompatibilityScope(reason: string): IncompatibilityMetadata['districtScope'] {
-  if (reason.includes('в одном районе')) return 'SAME'
-  if (reason.includes('в любом районе')) return 'ANY'
-  throw new Error(`Неизвестная область несовместимости: ${reason}`)
-}
-
 export const INCOMPATIBILITIES: IncompatibilityMetadata[] = measuresData.incompatibilities.map(
-  ({ measures, reason }) => ({ measures, reason, districtScope: incompatibilityScope(reason) }),
+  ({ measures, reason, type }) => ({
+    measures,
+    reason,
+    districtScope: type === 'global' ? 'ANY' : 'SAME',
+  }),
 )
