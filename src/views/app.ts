@@ -11,7 +11,7 @@ export function renderApp(root: HTMLElement, user: User | null): void {
   root.innerHTML = `
     <main class="app-shell">
       <header class="app-header">
-        <a class="brand" href="#/app" aria-label="Akim home"><span class="brand-mark">A</span><span>akim</span></a>
+        <a class="brand" href="#/app" aria-label="Abeke home"><span class="brand-mark">A</span><span>Abeke</span></a>
         <div class="user-menu">
           <span class="user-email">${safeEmail}</span>
           <button id="sign-out" class="outline-button" type="button">Sign out</button>

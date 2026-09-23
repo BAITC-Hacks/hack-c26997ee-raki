@@ -31,7 +31,7 @@ export function renderAuth(root: HTMLElement, route: Route): void {
       <section class="auth-intro" aria-label="Product introduction">
         <a class="brand" href="#/login" aria-label="Akim home">
           <span class="brand-mark">A</span>
-          <span>akim</span>
+          <span>Abeke</span>
         </a>
         <div class="intro-content">
           <p class="kicker">City decisions, made clearer.</p>
@@ -47,7 +47,7 @@ export function renderAuth(root: HTMLElement, route: Route): void {
 
       <section class="auth-panel">
         <div class="auth-card">
-          <div class="mobile-brand brand"><span class="brand-mark">A</span><span>akim</span></div>
+          <div class="mobile-brand brand"><span class="brand-mark">A</span><span>Abeke</span></div>
           <div class="auth-heading">
             <p class="eyebrow">${copy.eyebrow}</p>
             <h2>${copy.title}</h2>
@@ -76,7 +76,7 @@ export function renderAuth(root: HTMLElement, route: Route): void {
             <button id="auth-submit" class="primary-button" type="submit">${copy.action}<span aria-hidden="true">→</span></button>
           </form>
 
-          <p class="auth-switch">${mode === 'login' ? 'New to akim?' : 'Already have an account?'} <a href="#/${alternateMode}">${alternateLabel}</a></p>
+          <p class="auth-switch">${mode === 'login' ? 'New to Abeke?' : 'Already have an account?'} <a href="#/${alternateMode}">${alternateLabel}</a></p>
           ${!isSupabaseConfigured ? '<p class="setup-note"><span class="status-dot"></span> Add your Supabase keys to enable authentication.</p>' : ''}
         </div>
         <p class="legal-copy">By continuing, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
