@@ -24,8 +24,20 @@
     { "measures": ["M5", "M6"], "bonus": { "E2": 2 }, "appliesTo": "districtOfFirstMeasure" }
   ],
   "incompatibilities": [
-    { "measures": ["M1", "M3"], "reason": "Можно выбрать только BRT или ЛРТ, в любом районе." },
-    { "measures": ["M4", "M7"], "reason": "Нельзя выбрать в одном районе: конфликт за участок." },
-    { "measures": ["M5", "M13"], "reason": "Нельзя выбрать в одном районе: дублирование программы." }
-  ]
+  {
+    "measures": ["M1", "M3"],
+    "type": "global",
+    "reason": "LRP and BRT cant be choosen together."
+  },
+  {
+    "measures": ["M4", "M7"],
+    "type": "sameDistrict",
+    "reason": "Cant choose in same district: Conflict for territory."
+  },
+  {
+    "measures": ["M5", "M13"],
+    "type": "sameDistrict",
+    "reason": "Cant choose in same district: Duplicate programms."
+  }
+]
 }
