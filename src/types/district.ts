@@ -6,4 +6,5 @@ export interface District {
   populationShare: number
   indicators: Indicators
   baseScore: number
+  profile: string
 }

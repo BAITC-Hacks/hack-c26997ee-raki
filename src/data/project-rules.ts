@@ -1,3 +1,7 @@
+import districtsData from '../../data/districts.json'
+import measuresData from '../../data/measures.json'
+import scoringData from '../../data/scoring.json'
+
 export interface ProjectRules {
   budget: number
   requiredDecisions: number
@@ -9,34 +13,41 @@ export interface ProjectRules {
   baseScore: number
 }
 
-export interface SynergyMetadata {
-  measures: readonly [string, string]
+export type SynergyMetadata = (typeof measuresData.synergies)[number]
+export type IncompatibilityMetadata = (typeof measuresData.incompatibilities)[number]
+
+export interface ScoringMetadata {
+  indicatorWeights: typeof scoringData.indicatorWeights
+  directionWeights: typeof scoringData.directionWeights
+  criticalThreshold: number
+  criticalPenaltyPerPair: number
+  scoreFormula: typeof scoringData.scoreFormula
+  calculation: typeof scoringData.calculation
+  validationRules: readonly string[]
+  baseline: typeof scoringData.baseline
+  exampleScenario: typeof scoringData.exampleScenario
 }
 
-export interface IncompatibilityMetadata {
-  measures: readonly [string, string]
-  districtScope: 'ANY' | 'SAME'
+export const SCORING_METADATA: ScoringMetadata = scoringData
+
+const maxPerDirectionRule = scoringData.validationRules.find((rule) =>
+  rule.startsWith('Не более '),
+)
+const maxMeasuresPerDirection = Number(maxPerDirectionRule?.match(/\d+/u)?.[0])
+
+if (!Number.isInteger(maxMeasuresPerDirection)) {
+  throw new Error('Не удалось прочитать ограничение мероприятий на направление из scoring.json.')
 }
 
 export const PROJECT_RULES: ProjectRules = {
-  budget: 100,
-  requiredDecisions: 5,
-  maxMeasuresPerDirection: 2,
-  simulationHorizon: 8,
-  indicatorMin: 0,
-  indicatorMax: 100,
-  criticalThreshold: 40,
-  baseScore: 52.56,
+  budget: measuresData.budget,
+  requiredDecisions: measuresData.requiredMeasureCount,
+  maxMeasuresPerDirection,
+  simulationHorizon: measuresData.simulationHorizonQuarters,
+  indicatorMin: districtsData.scale.min,
+  indicatorMax: districtsData.scale.max,
+  criticalThreshold: scoringData.criticalThreshold,
+  baseScore: scoringData.baseline.score,
 }
 
-export const SYNERGIES: readonly SynergyMetadata[] = [
-  { measures: ['M1', 'M2'] },
-  { measures: ['M10', 'M12'] },
-  { measures: ['M5', 'M6'] },
-]
-
-export const INCOMPATIBILITIES: readonly IncompatibilityMetadata[] = [
-  { measures: ['M1', 'M3'], districtScope: 'ANY' },
-  { measures: ['M4', 'M7'], districtScope: 'SAME' },
-  { measures: ['M5', 'M13'], districtScope: 'SAME' },
-]
+export const DIRECTION_WEIGHTS = scoringData.directionWeights
