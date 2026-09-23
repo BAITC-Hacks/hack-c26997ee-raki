@@ -23,6 +23,3 @@ def load_measures():
 
 def load_scoring():
     return load_json("scoring.json")
-
-
-

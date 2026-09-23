@@ -146,4 +146,3 @@ def validate(decisions: list[Decision]):
         "total_cost": total_cost,
         "remaining_budget": BUDGET - total_cost
     }
-

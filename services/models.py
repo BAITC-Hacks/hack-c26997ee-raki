@@ -6,4 +6,3 @@ from typing import Optional
 class Decision:
     measure_id: str
     district_id: Optional[str] = None
-
