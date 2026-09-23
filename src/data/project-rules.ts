@@ -14,7 +14,7 @@ export interface ProjectRules {
 }
 
 export type SynergyMetadata = (typeof measuresData.synergies)[number]
-export type IncompatibilityMetadata = (typeof measuresData.incompatibilities)[number]
+export type { IncompatibilityMetadata } from './measures'
 
 export interface ScoringMetadata {
   indicatorWeights: typeof scoringData.indicatorWeights

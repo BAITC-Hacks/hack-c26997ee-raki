@@ -1,9 +1,10 @@
 import { MeasureScope, type Measure } from '../../types'
-import { DIRECTION_LABELS } from './DirectionFilter'
+import { DIRECTION_LABELS } from '../../ui/direction-labels'
 
 interface MeasureCardProps {
   measure: Measure
   selected?: boolean
+  selectionDisabled?: boolean
   onSelect: (measure: Measure) => void
 }
 
@@ -17,7 +18,12 @@ function quarterLabel(value: number): string {
   return 'кварталов'
 }
 
-function MeasureCard({ measure, selected = false, onSelect }: MeasureCardProps) {
+function MeasureCard({
+  measure,
+  selected = false,
+  selectionDisabled = false,
+  onSelect,
+}: MeasureCardProps) {
   const effects = Object.entries(measure.effects).filter(
     (entry): entry is [string, number] => typeof entry[1] === 'number',
   )
@@ -41,8 +47,8 @@ function MeasureCard({ measure, selected = false, onSelect }: MeasureCardProps) 
       </div>
 
       <div className="measure-card__details">
-        <span className="measure-card__detail-label">Срок эффекта</span>
-        <span>{measure.lag} {quarterLabel(measure.lag)}</span>
+        <span className="measure-card__detail-label">Начало эффекта</span>
+        <span>через {measure.lag} {quarterLabel(measure.lag)}</span>
       </div>
 
       <div className="measure-card__effects">
@@ -63,10 +69,11 @@ function MeasureCard({ measure, selected = false, onSelect }: MeasureCardProps) 
         type="button"
         className="measure-card__button"
         aria-pressed={selected}
+        disabled={selected || selectionDisabled}
         onClick={() => onSelect(measure)}
       >
-        {selected ? 'Выбрано' : 'Рассмотреть меру'}
-        <span aria-hidden="true">↗</span>
+        {selected ? 'Выбрано' : 'Выбрать меру'}
+        <span aria-hidden="true">{selected ? '✓' : '+'}</span>
       </button>
     </article>
   )

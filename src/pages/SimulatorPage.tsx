@@ -1,11 +1,45 @@
 import { useState } from 'react'
 import MeasureCatalog from '../components/measures/MeasureCatalog'
-import { PROJECT_RULES } from '../data'
-import type { Measure } from '../types'
+import ScenarioPanel from '../components/scenario/ScenarioPanel'
+import { MEASURES, PROJECT_RULES } from '../data'
+import { MeasureScope, type Decision, type Measure, type ScenarioRequest } from '../types'
+import { validateScenario } from '../validation/scenario'
 import '../styles/simulator.css'
 
 function SimulatorPage() {
-  const [lastViewedMeasure, setLastViewedMeasure] = useState<Measure | null>(null)
+  const [decisions, setDecisions] = useState<Decision[]>([])
+  const selectedMeasureIds = new Set(decisions.map(({ measureId }) => measureId))
+  const validationErrors = validateScenario(decisions)
+
+  function handleSelect(measure: Measure) {
+    setDecisions((current) => {
+      if (
+        current.length >= PROJECT_RULES.requiredDecisions ||
+        current.some((decision) => decision.measureId === measure.id)
+      ) return current
+
+      return [...current, { measureId: measure.id, districtId: null }]
+    })
+  }
+
+  function handleDistrictChange(measureId: string, districtId: string | null) {
+    setDecisions((current) => current.map((decision) => {
+      if (decision.measureId !== measureId) return decision
+      const measure = MEASURES.find((item) => item.id === measureId)
+      if (measure?.scope !== MeasureScope.DISTRICT) return decision
+      return { ...decision, districtId }
+    }))
+  }
+
+  function handleRemove(measureId: string) {
+    setDecisions((current) => current.filter((decision) => decision.measureId !== measureId))
+  }
+
+  function handleRun() {
+    if (validateScenario(decisions).length > 0) return
+    const request: ScenarioRequest = { decisions: decisions.map((decision) => ({ ...decision })) }
+    console.info('ScenarioRequest:', request)
+  }
 
   return (
     <main className="simulator-page">
@@ -42,23 +76,21 @@ function SimulatorPage() {
           </div>
         </div>
 
-        <MeasureCatalog onSelect={setLastViewedMeasure} />
-      </div>
-
-      {lastViewedMeasure && (
-        <div className="measure-notice" role="status">
-          <span className="measure-notice__dot" aria-hidden="true" />
-          <span>Вы рассматриваете: <strong>{lastViewedMeasure.name}</strong></span>
-          <button
-            type="button"
-            className="measure-notice__close"
-            aria-label="Закрыть сообщение"
-            onClick={() => setLastViewedMeasure(null)}
-          >
-            ×
-          </button>
+        <div className="workspace-grid">
+          <MeasureCatalog
+            selectedMeasureIds={selectedMeasureIds}
+            selectionLimitReached={decisions.length >= PROJECT_RULES.requiredDecisions}
+            onSelect={handleSelect}
+          />
+          <ScenarioPanel
+            decisions={decisions}
+            errors={validationErrors}
+            onDistrictChange={handleDistrictChange}
+            onRemove={handleRemove}
+            onRun={handleRun}
+          />
         </div>
-      )}
+      </div>
     </main>
   )
 }

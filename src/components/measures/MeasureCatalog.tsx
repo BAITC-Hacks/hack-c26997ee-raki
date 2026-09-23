@@ -5,10 +5,16 @@ import DirectionFilter from './DirectionFilter'
 import MeasureCard from './MeasureCard'
 
 interface MeasureCatalogProps {
+  selectedMeasureIds: ReadonlySet<string>
+  selectionLimitReached: boolean
   onSelect: (measure: Measure) => void
 }
 
-function MeasureCatalog({ onSelect }: MeasureCatalogProps) {
+function MeasureCatalog({
+  selectedMeasureIds,
+  selectionLimitReached,
+  onSelect,
+}: MeasureCatalogProps) {
   const [selectedDirection, setSelectedDirection] = useState<Direction | null>(null)
   const visibleMeasures = selectedDirection
     ? MEASURES.filter((measure) => measure.direction === selectedDirection)
@@ -35,7 +41,13 @@ function MeasureCatalog({ onSelect }: MeasureCatalogProps) {
 
       <div className="measure-grid">
         {visibleMeasures.map((measure) => (
-          <MeasureCard key={measure.id} measure={measure} onSelect={onSelect} />
+          <MeasureCard
+            key={measure.id}
+            measure={measure}
+            selected={selectedMeasureIds.has(measure.id)}
+            selectionDisabled={selectionLimitReached}
+            onSelect={onSelect}
+          />
         ))}
       </div>
     </section>
