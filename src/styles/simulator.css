@@ -261,9 +261,8 @@
 .measure-card {
   display: flex;
   min-width: 0;
-  min-height: 345px;
   flex-direction: column;
-  padding: 23px;
+  padding: 20px;
   border: 1px solid #dfe6ef;
   border-radius: 19px;
   background: #fff;
@@ -320,12 +319,11 @@
 .direction-badge--services { color: #266f96; background: #e6f4fb; }
 
 .measure-card__title {
-  min-height: 60px;
-  margin: 20px 0 15px;
+  margin: 14px 0 12px;
   color: #1a2b47;
-  font-size: 17px;
-  font-weight: 760;
-  line-height: 1.34;
+  font-size: 19px;
+  font-weight: 780;
+  line-height: 1.28;
   letter-spacing: -0.025em;
   overflow-wrap: anywhere;
 }
@@ -346,8 +344,8 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 22px;
-  padding: 15px 0;
+  margin-top: 16px;
+  padding: 11px 0;
   border-top: 1px solid #eef1f5;
   border-bottom: 1px solid #eef1f5;
   color: #31415a;
@@ -362,8 +360,7 @@
 }
 
 .measure-card__effects {
-  flex: 1;
-  padding: 16px 0 19px;
+  padding: 13px 0 11px;
 }
 
 .measure-card__effect-list {
@@ -406,6 +403,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  margin-top: auto;
   padding: 0;
   border: 0;
   color: #3159d9;
@@ -436,14 +434,35 @@
 .scenario-panel {
   position: sticky;
   top: 22px;
+  display: flex;
+  flex-direction: column;
   max-height: calc(100vh - 44px);
-  overflow-y: auto;
-  padding: 24px;
+  overflow: hidden;
   border: 1px solid #dfe6ef;
   border-radius: 20px;
   background: #fff;
   box-shadow: 0 9px 28px rgba(31, 52, 83, 0.05);
+}
+
+.scenario-panel__top {
+  flex: 0 0 auto;
+  padding: 24px 24px 0;
+}
+
+.scenario-panel__body {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 24px 18px;
   scrollbar-width: thin;
+  overscroll-behavior: contain;
+}
+
+.scenario-panel__footer {
+  flex: 0 0 auto;
+  padding: 12px 24px 22px;
+  border-top: 1px solid #e8edf5;
+  background: #fff;
+  box-shadow: 0 -6px 16px rgba(28, 48, 78, 0.035);
 }
 
 .scenario-panel__heading h2 {
@@ -467,7 +486,7 @@
 }
 
 .budget-meter {
-  margin-top: 25px;
+  margin-top: 21px;
   padding: 18px;
   border: 1px solid #e3eaf5;
   border-radius: 13px;
@@ -521,11 +540,11 @@
 .budget-meter--over .budget-meter__row--remaining strong { color: #c4524d; }
 
 .scenario-panel__selection {
-  margin-top: 27px;
+  margin-top: 21px;
 }
 
 .scenario-panel__selection h3 {
-  margin: 0 0 13px;
+  margin: 0 0 10px;
   color: #243854;
   font-size: 14px;
   font-weight: 760;
@@ -544,7 +563,7 @@
 
 .selected-measures {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -552,7 +571,7 @@
 
 .selected-measure {
   min-width: 0;
-  padding: 15px;
+  padding: 11px 12px;
   border: 1px solid #e1e8f2;
   border-radius: 12px;
   background: #fff;
@@ -574,8 +593,8 @@
 
 .selected-measure__remove {
   display: grid;
-  width: 25px;
-  height: 25px;
+  width: 23px;
+  height: 23px;
   place-items: center;
   border: 0;
   border-radius: 7px;
@@ -591,7 +610,7 @@
 }
 
 .selected-measure h4 {
-  margin: 7px 0 11px;
+  margin: 4px 0 8px;
   color: #263954;
   font-size: 13px;
   font-weight: 750;
@@ -613,18 +632,18 @@
 }
 
 .selected-measure__city {
-  margin: 12px 0 0;
+  margin: 8px 0 0;
   color: #7889a2;
   font-size: 12px;
 }
 
 .district-selector {
-  margin-top: 14px;
+  margin-top: 10px;
 }
 
 .district-selector label {
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   color: #60728e;
   font-size: 11px;
   font-weight: 730;
@@ -632,8 +651,8 @@
 
 .district-selector select {
   width: 100%;
-  min-height: 37px;
-  padding: 7px 30px 7px 10px;
+  min-height: 35px;
+  padding: 6px 30px 6px 10px;
   border: 1px solid #d9e2ee;
   border-radius: 8px;
   color: #344764;
@@ -645,8 +664,24 @@
   border-color: #d5a3a0;
 }
 
+.district-selector__details {
+  margin-top: 7px;
+  color: #667d9d;
+  font-size: 11px;
+}
+
+.district-selector__details summary {
+  width: fit-content;
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.district-selector__details summary:hover {
+  color: #3159d9;
+}
+
 .district-selector__profile {
-  margin: 7px 0 0;
+  margin: 5px 0 0;
   color: #8290a4;
   font-size: 11px;
   line-height: 1.4;
@@ -688,17 +723,17 @@
 .scenario-panel__run {
   display: flex;
   width: 100%;
-  min-height: 47px;
+  min-height: 49px;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-top: 14px;
+  margin-top: 0;
   padding: 0 15px;
   border: 1px solid #3159d9;
   border-radius: 10px;
   color: #fff;
   background: #3159d9;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 760;
   transition: background 180ms ease, box-shadow 180ms ease;
 }
@@ -728,6 +763,10 @@
   .scenario-panel {
     position: static;
     max-height: none;
+    overflow: visible;
+  }
+
+  .scenario-panel__body {
     overflow: visible;
   }
 
@@ -800,7 +839,19 @@
   }
 
   .scenario-panel {
-    padding: 21px;
+    max-height: none;
+  }
+
+  .scenario-panel__top {
+    padding: 21px 21px 0;
+  }
+
+  .scenario-panel__body {
+    padding: 0 21px 18px;
+  }
+
+  .scenario-panel__footer {
+    padding: 12px 21px 21px;
   }
 }
 

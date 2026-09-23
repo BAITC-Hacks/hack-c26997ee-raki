@@ -25,7 +25,12 @@ function DistrictSelector({ id, value, onChange }: DistrictSelectorProps) {
           </option>
         ))}
       </select>
-      {selectedDistrict && <p className="district-selector__profile">{selectedDistrict.profile}</p>}
+      {selectedDistrict && (
+        <details key={selectedDistrict.id} className="district-selector__details">
+          <summary>О районе</summary>
+          <p className="district-selector__profile">{selectedDistrict.profile}</p>
+        </details>
+      )}
     </div>
   )
 }
